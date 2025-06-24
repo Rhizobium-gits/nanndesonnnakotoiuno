@@ -466,7 +466,7 @@
         }
 
         function createTextBurst() {
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => createTextElement(), Math.random() * 200);
             }
         }
@@ -512,54 +512,67 @@
             cursorText.style.top = (e.clientY - 10) + 'px';
             
             // マウス移動で新しいテキスト生成
-            if (Math.random() < 0.2 && !isSecretMode) {
+            if (Math.random() < 0.4 && !isSecretMode) {
                 createTextElement();
             }
         });
 
-        // クリック時に爆発
+        // クリック時に大爆発
         document.addEventListener('click', (e) => {
             // ボタンクリックでない場合のみ
             if (!e.target.classList.contains('secret-button') && !isSecretMode) {
-                for (let i = 0; i < 25; i++) {
+                for (let i = 0; i < 50; i++) {
                     setTimeout(() => createTextElement(), Math.random() * 300);
                 }
             }
         });
 
-        // 高頻度で生成（700個前後を目指す）
+        // 超高頻度で生成（1500個以上を目指す）
         setInterval(() => {
             if (!isSecretMode) createTextElement();
-        }, 80);
+        }, 30);
+        
+        setInterval(() => {
+            if (!isSecretMode) createTextElement();
+        }, 50);
         
         setInterval(() => {
             if (!isSecretMode) createTextBurst();
-        }, 1200);
+        }, 600);
         
         // 追加の生成タイマー
         setInterval(() => {
             if (!isSecretMode) {
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => createTextElement(), Math.random() * 100);
+                }
+            }
+        }, 200);
+
+        // さらに追加の生成
+        setInterval(() => {
+            if (!isSecretMode) {
+                for (let i = 0; i < 8; i++) {
                     setTimeout(() => createTextElement(), Math.random() * 150);
                 }
             }
-        }, 400);
+        }, 300);
 
         // ランダムな間隔での爆発的生成
         setInterval(() => {
-            if (Math.random() < 0.4 && !isSecretMode) {
+            if (Math.random() < 0.6 && !isSecretMode) {
                 createTextBurst();
             }
-        }, 800);
+        }, 400);
 
-        // 初期大量生成
-        for (let i = 0; i < 100; i++) {
-            setTimeout(() => createTextElement(), Math.random() * 1500);
+        // 初期超大量生成
+        for (let i = 0; i < 300; i++) {
+            setTimeout(() => createTextElement(), Math.random() * 2000);
         }
 
-        // 初期爆発
-        for (let i = 0; i < 8; i++) {
-            setTimeout(() => createTextBurst(), i * 200);
+        // 初期爆発祭り
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => createTextBurst(), i * 100);
         }
 
         // タッチデバイス対応
@@ -569,48 +582,51 @@
             cursorText.style.left = (touch.clientX + 10) + 'px';
             cursorText.style.top = (touch.clientY - 10) + 'px';
             
-            // タッチ移動でも生成
-            if (Math.random() < 0.25 && !isSecretMode) {
+            // タッチ移動でも大量生成
+            if (Math.random() < 0.5 && !isSecretMode) {
                 createTextElement();
             }
         });
 
         document.addEventListener('touchstart', (e) => {
             if (!isSecretMode) {
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => createTextElement(), Math.random() * 250);
+                for (let i = 0; i < 40; i++) {
+                    setTimeout(() => createTextElement(), Math.random() * 200);
                 }
             }
         });
 
-        // 画面リサイズでも爆発
+        // 画面リサイズでも大爆発
         window.addEventListener('resize', () => {
             if (!isSecretMode) {
+                createTextBurst();
                 createTextBurst();
             }
         });
 
-        // 定期的にDOM要素数をチェック（700前後を維持）
+        // 定期的にDOM要素数をチェック（1500-2000個を維持）
         setInterval(() => {
             const elements = document.querySelectorAll('.text-element');
             console.log(`現在の要素数: ${elements.length}`);
             
-            // 800個を超えたら少し間引く
-            if (elements.length > 800) {
-                for (let i = 0; i < 100; i++) {
+            // 2500個を超えたら間引く
+            if (elements.length > 2500) {
+                for (let i = 0; i < 200; i++) {
                     if (elements[i] && elements[i].parentNode) {
                         elements[i].parentNode.removeChild(elements[i]);
                     }
                 }
             }
             
-            // 500個以下なら積極的に追加
-            if (elements.length < 500 && !isSecretMode) {
-                for (let i = 0; i < 20; i++) {
+            // 1000個以下なら大量追加
+            if (elements.length < 1000 && !isSecretMode) {
+                for (let i = 0; i < 50; i++) {
                     setTimeout(() => createTextElement(), Math.random() * 100);
                 }
+                createTextBurst();
+                createTextBurst();
             }
-        }, 3000);
+        }, 2000);
     </script>
 </body>
 </html>
